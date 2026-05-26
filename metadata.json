@@ -1,0 +1,6 @@
+{
+  "name": "Controle de Figurinhas da Copa",
+  "description": "Gerenciador completo de figurinhas do álbum da Copa do Mundo com salvamento local, estatísticas, exportação/importação de CSV e controle de repetidas.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

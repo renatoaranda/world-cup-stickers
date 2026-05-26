@@ -1,0 +1,127 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+/* Custom styling rules matching the Frosted Glass design */
+@layer base {
+  body {
+    @apply antialiased font-sans text-slate-200 bg-slate-950;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Mesh Radial Gradients for Backdrop */
+.mesh-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
+  background: 
+    radial-gradient(at 0% 0%, #1e293b 0%, transparent 60%),
+    radial-gradient(at 100% 0%, #312e81 0%, transparent 60%),
+    radial-gradient(at 100% 100%, #111827 0%, transparent 65%),
+    radial-gradient(at 0% 100%, #1e1b4b 0%, transparent 60%);
+  background-color: #020617;
+}
+
+/* Glass Panels with high quality blur */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.glass-panel-hover {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-panel-hover:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Glass buttons & inputs */
+.glass-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+}
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(251, 191, 36, 0.4);
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.15);
+}
+
+/* Special sticker Got vs Missing styles */
+.sticker-missing {
+  background: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.5);
+  color: #fbbf24;
+  text-shadow: 0 0 12px rgba(251, 191, 36, 0.25);
+  box-shadow: 0 4px 12px rgba(251, 191, 36, 0.05);
+}
+.sticker-missing:hover {
+  background: rgba(251, 191, 36, 0.18);
+  border-color: rgba(251, 191, 36, 0.7);
+}
+
+.sticker-got {
+  background: rgba(255, 255, 255, 0.015);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: rgba(248, 250, 252, 0.22);
+}
+.sticker-got:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(248, 250, 252, 0.5);
+}
+
+/* FWC Special Gold Glowing sticker class */
+.sticker-special-missing {
+  background: rgba(251, 191, 36, 0.2);
+  border: 1.5px solid rgba(251, 191, 36, 0.85);
+  color: #ffffff;
+  box-shadow: 0 0 16px rgba(251, 191, 36, 0.4);
+  text-shadow: 0 0 12px rgba(251, 191, 36, 0.6);
+}
+.sticker-special-missing:hover {
+  background: rgba(251, 191, 36, 0.28);
+  border-color: #fbbf24;
+}
+
+.sticker-special-got {
+  background: rgba(251, 191, 36, 0.02);
+  border: 1px dashed rgba(251, 191, 36, 0.2);
+  color: rgba(251, 191, 36, 0.25);
+}
+.sticker-special-got:hover {
+  background: rgba(251, 191, 36, 0.08);
+  color: rgba(251, 191, 36, 0.5);
+}
+
+/* Custom Scrollbar for sleek UI */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.01);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
