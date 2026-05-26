@@ -1,4 +1,4 @@
-import { Team, Sticker } from './types';
+import { Team, Sticker } from "./types";
 
 const RAW_CSV_DATA = `Seleção,FWC,,,3,4,5,6,7,8,,,,,,,,,,,,
 México,MEX,1,,,,5,,,8,,10,,12,13,,,,17,,19,
@@ -53,56 +53,56 @@ FIFA,FWC,,10,,12,13,,,16,17,18,19,,,,,,,,,
 COCA,,,,CC3,,,CC6,,,,CC10,CC11,,CC13,CC14,,,,,,`;
 
 const FLAG_MAP: Record<string, string> = {
-  FWC: '🏆',
-  MEX: '🇲🇽',
-  RSA: '🇿🇦',
-  KOR: '🇰🇷',
-  CZE: '🇨🇿',
-  CAN: '🇨🇦',
-  BIH: '🇧🇦',
-  QAT: '🇶🇦',
-  SUI: '🇨🇭',
-  BRA: '🇧🇷',
-  MAR: '🇲🇦',
-  HAI: '🇭🇹',
-  SCO: '🏴',
-  USA: '🇺🇸',
-  PAR: '🇵🇾',
-  AUS: '🇦🇺',
-  TUR: '🇹🇷',
-  GER: '🇩🇪',
-  CUW: '🇨🇼',
-  CIV: '🇨🇮',
-  ECU: '🇪🇨',
-  NED: '🇳🇱',
-  JPN: '🇯🇵',
-  SWE: '🇸🇪',
-  TUN: '🇹🇳',
-  BEL: '🇧🇪',
-  EGY: '🇪🇬',
-  IRN: '🇮🇷',
-  NZL: '🇳🇿',
-  ESP: '🇪🇸',
-  CPV: '🇨🇻',
-  KSA: '🇸🇦',
-  URU: '🇺🇾',
-  FRA: '🇫🇷',
-  SEN: '🇸🇳',
-  IRQ: '🇮🇶',
-  NOR: '🇳🇴',
-  ARG: '🇦🇷',
-  ALG: '🇩🇿',
-  AUT: '🇦🇹',
-  JOR: '🇯🇴',
-  POR: '🇵🇹',
-  COD: '🇨🇩',
-  UZB: '🇺🇿',
-  COL: '🇨🇴',
-  ENG: '🏴',
-  CRO: '🇭🇷',
-  GHA: '🇬🇭',
-  PAN: '🇵🇦',
-  COCA: '🥤',
+  FWC: "🏆",
+  MEX: "🇲🇽",
+  RSA: "🇿🇦",
+  KOR: "🇰🇷",
+  CZE: "🇨🇿",
+  CAN: "🇨🇦",
+  BIH: "🇧🇦",
+  QAT: "🇶🇦",
+  SUI: "🇨🇭",
+  BRA: "🇧🇷",
+  MAR: "🇲🇦",
+  HAI: "🇭🇹",
+  SCO: "🏴",
+  USA: "🇺🇸",
+  PAR: "🇵🇾",
+  AUS: "🇦🇺",
+  TUR: "🇹🇷",
+  GER: "🇩🇪",
+  CUW: "🇨🇼",
+  CIV: "🇨🇮",
+  ECU: "🇪🇨",
+  NED: "🇳🇱",
+  JPN: "🇯🇵",
+  SWE: "🇸🇪",
+  TUN: "🇹🇳",
+  BEL: "🇧🇪",
+  EGY: "🇪🇬",
+  IRN: "🇮🇷",
+  NZL: "🇳🇿",
+  ESP: "🇪🇸",
+  CPV: "🇨🇻",
+  KSA: "🇸🇦",
+  URU: "🇺🇾",
+  FRA: "🇫🇷",
+  SEN: "🇸🇳",
+  IRQ: "🇮🇶",
+  NOR: "🇳🇴",
+  ARG: "🇦🇷",
+  ALG: "🇩🇿",
+  AUT: "🇦🇹",
+  JOR: "🇯🇴",
+  POR: "🇵🇹",
+  COD: "🇨🇩",
+  UZB: "🇺🇿",
+  COL: "🇨🇴",
+  ENG: "🏴",
+  CRO: "🇭🇷",
+  GHA: "🇬🇭",
+  PAN: "🇵🇦",
+  COCA: "🥤",
 };
 
 interface ParsedRow {
@@ -111,15 +111,21 @@ interface ParsedRow {
   unobtainedNumbers: Set<number>;
 }
 
-function parseCsvData(): { teams: Team[]; unobtainedMap: Record<string, Set<number>> } {
-  const lines = RAW_CSV_DATA.trim().split('\n');
-  const teamMap: Record<string, { name: string; unobtainedNumbers: Set<number> }> = {};
+function parseCsvData(): {
+  teams: Team[];
+  unobtainedMap: Record<string, Set<number>>;
+} {
+  const lines = RAW_CSV_DATA.trim().split("\n");
+  const teamMap: Record<
+    string,
+    { name: string; unobtainedNumbers: Set<number> }
+  > = {};
   const orderList: string[] = [];
 
   lines.forEach((line) => {
     if (!line.trim()) return;
-    const parts = line.split(',');
-    
+    const parts = line.split(",");
+
     // col 0: Name
     const name = parts[0]?.trim();
     // col 1: ID
@@ -128,8 +134,8 @@ function parseCsvData(): { teams: Team[]; unobtainedMap: Record<string, Set<numb
     if (!name) return;
 
     // Handle special case COCA
-    if (name.toUpperCase() === 'COCA' && !id) {
-      id = 'COCA';
+    if (name.toUpperCase() === "COCA" && !id) {
+      id = "COCA";
     }
 
     if (!id) return;
@@ -157,56 +163,56 @@ function parseCsvData(): { teams: Team[]; unobtainedMap: Record<string, Set<numb
   });
 
   // Re-map FWC name specifically
-  if (teamMap['FWC']) {
-    teamMap['FWC'].name = 'Especial / Abertura';
+  if (teamMap["FWC"]) {
+    teamMap["FWC"].name = "Especial / Abertura";
   }
   // Re-map COCA name specifically
-  if (teamMap['COCA']) {
-    teamMap['COCA'].name = 'Coca-Cola';
+  if (teamMap["COCA"]) {
+    teamMap["COCA"].name = "Coca-Cola";
   }
 
   // Generate ordered teams
   const finalTeams: Team[] = [];
-  const isEspecial = (id: string) => id === 'FWC' || id === 'COCA';
-  const normalIds = orderList.filter(id => !isEspecial(id));
+  const isEspecial = (id: string) => id === "FWC" || id === "COCA";
+  const normalIds = orderList.filter((id) => !isEspecial(id));
 
   // 1. FWC at top
-  if (teamMap['FWC']) {
+  if (teamMap["FWC"]) {
     finalTeams.push({
-      id: 'FWC',
-      name: teamMap['FWC'].name,
-      group: 'Especial',
-      flag: '🏆',
+      id: "FWC",
+      name: teamMap["FWC"].name,
+      group: "Especial",
+      flag: "🏆",
     });
   }
 
   // 2. Normal Teams sorted in custom 6-team columns (Group A to H)
   normalIds.forEach((id, idx) => {
-    let group = 'Grupo A';
-    if (idx < 6) group = 'Grupo A';
-    else if (idx < 12) group = 'Grupo B';
-    else if (idx < 18) group = 'Grupo C';
-    else if (idx < 24) group = 'Grupo D';
-    else if (idx < 30) group = 'Grupo E';
-    else if (idx < 36) group = 'Grupo F';
-    else if (idx < 42) group = 'Grupo G';
-    else group = 'Grupo H';
+    let group = "Grupo A";
+    if (idx < 6) group = "Grupo A";
+    else if (idx < 12) group = "Grupo B";
+    else if (idx < 18) group = "Grupo C";
+    else if (idx < 24) group = "Grupo D";
+    else if (idx < 30) group = "Grupo E";
+    else if (idx < 36) group = "Grupo F";
+    else if (idx < 42) group = "Grupo G";
+    else group = "Grupo H";
 
     finalTeams.push({
       id,
       name: teamMap[id].name,
       group,
-      flag: FLAG_MAP[id] || '🏳️',
+      flag: FLAG_MAP[id] || "🏳️",
     });
   });
 
   // 3. COCA at bottom
-  if (teamMap['COCA']) {
+  if (teamMap["COCA"]) {
     finalTeams.push({
-      id: 'COCA',
-      name: teamMap['COCA'].name,
-      group: 'Especial',
-      flag: '🥤',
+      id: "COCA",
+      name: teamMap["COCA"].name,
+      group: "Especial",
+      flag: "🥤",
     });
   }
 
@@ -222,29 +228,40 @@ const parsed = parseCsvData();
 export const TEAMS: Team[] = parsed.teams;
 
 export const GROUPS = [
-  'Especial',
-  'Grupo A',
-  'Grupo B',
-  'Grupo C',
-  'Grupo D',
-  'Grupo E',
-  'Grupo F',
-  'Grupo G',
-  'Grupo H'
+  "Especial",
+  "Grupo A",
+  "Grupo B",
+  "Grupo C",
+  "Grupo D",
+  "Grupo E",
+  "Grupo F",
+  "Grupo G",
+  "Grupo H",
 ];
 
 const unobtainedMap = parsed.unobtainedMap;
 
+function getStickersAmmountByType(teamId: string): number {
+  switch (teamId) {
+    case "COCA":
+      return 15;
+    case "FWC":
+      return 19;
+    default:
+      return 20;
+  }
+}
+
 export function generateDefaultStickers(): Sticker[] {
   const stickers: Sticker[] = [];
-  
+
   TEAMS.forEach((team) => {
-    const totalStickersForTeam = team.id === 'COCA' ? 15 : 20;
+    const totalStickersForTeam = getStickersAmmountByType(team.id);
     const teamUnobtained = unobtainedMap[team.id] || new Set<number>();
 
     for (let i = 1; i <= totalStickersForTeam; i++) {
       let code = `${team.id} ${i}`;
-      if (team.id === 'COCA') {
+      if (team.id === "COCA") {
         code = `CC ${i}`;
       }
 
