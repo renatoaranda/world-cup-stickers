@@ -1,6 +1,6 @@
-import React from 'react';
-import { Sticker, Team } from '../types';
-import { Check, Info, ClipboardCopy, Trash2 } from 'lucide-react';
+import React from "react";
+import { Sticker, Team } from "../types";
+import { Check, Info, ClipboardCopy, Trash2 } from "lucide-react";
 
 interface StickerGridProps {
   stickers: Sticker[];
@@ -16,26 +16,37 @@ export default function StickerGrid({
   onBulkSetOwned,
 }: StickerGridProps) {
   // Group stickers by team
-  const stickersByTeam = stickers.reduce<Record<string, Sticker[]>>((acc, sticker) => {
-    if (!acc[sticker.teamId]) {
-      acc[sticker.teamId] = [];
-    }
-    acc[sticker.teamId].push(sticker);
-    return acc;
-  }, {});
+  const stickersByTeam = stickers.reduce<Record<string, Sticker[]>>(
+    (acc, sticker) => {
+      if (!acc[sticker.teamId]) {
+        acc[sticker.teamId] = [];
+      }
+      acc[sticker.teamId].push(sticker);
+      return acc;
+    },
+    {},
+  );
 
   // Find teams that actually have matching stickers after filter is applied
-  const activeTeams = teams.filter((team) => stickersByTeam[team.id]?.length > 0);
+  const activeTeams = teams.filter(
+    (team) => stickersByTeam[team.id]?.length > 0,
+  );
 
   if (activeTeams.length === 0) {
     return (
-      <div className="glass-panel p-12 text-center flex flex-col items-center justify-center min-h-[300px]" id="no-matching-stickers">
+      <div
+        className="glass-panel p-12 text-center flex flex-col items-center justify-center min-h-[300px]"
+        id="no-matching-stickers"
+      >
         <div className="w-16 h-16 bg-white/5 text-amber-400 border border-white/5 rounded-full flex items-center justify-center mb-4">
           <Info className="w-8 h-8" />
         </div>
-        <h4 className="text-lg font-black text-white">Nenhuma figurinha correspondente</h4>
+        <h4 className="text-lg font-black text-white">
+          Nenhuma figurinha correspondente
+        </h4>
         <p className="text-slate-400 text-sm mt-1 max-w-sm">
-          Tente ajustar sua busca ou seus filtros para encontrar as figurinhas desejadas.
+          Tente ajustar sua busca ou seus filtros para encontrar as figurinhas
+          desejadas.
         </p>
       </div>
     );
@@ -58,7 +69,11 @@ export default function StickerGrid({
             {/* Country Header */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/5 pb-3 mb-4 gap-3">
               <div className="flex items-center gap-3">
-                <span className="text-3xl leading-none select-none" role="img" aria-label={team.name}>
+                <span
+                  className="text-3xl leading-none select-none"
+                  role="img"
+                  aria-label={team.name}
+                >
                   {team.flag}
                 </span>
                 <div>
@@ -68,7 +83,9 @@ export default function StickerGrid({
                       {team.id}
                     </span>
                   </h4>
-                  <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">{team.group}</p>
+                  <p className="text-xs text-slate-400 font-bold uppercase tracking-wider">
+                    {team.group}
+                  </p>
                 </div>
               </div>
 
@@ -86,7 +103,7 @@ export default function StickerGrid({
                   </div>
                 </div>
 
-                <div className="flex gap-1.5 shrink-0">
+                {/* <div className="flex gap-1.5 shrink-0">
                   <button
                     onClick={() => onBulkSetOwned(team.id, true)}
                     className="p-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 rounded-lg text-xs font-bold border border-amber-500/20 transition-all flex items-center gap-1 cursor-pointer"
@@ -105,13 +122,13 @@ export default function StickerGrid({
                     <Trash2 className="w-3.5 h-3.5" />
                     <span>Zerar</span>
                   </button>
-                </div>
+                </div> */}
               </div>
             </div>
             {/* Sticker Numbers Grid */}
             <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-3">
               {teamStickers.map((sticker) => {
-                const isSpecial = team.id === 'FWC';
+                const isSpecial = team.id === "FWC";
                 return (
                   <div
                     key={sticker.id}
@@ -119,11 +136,11 @@ export default function StickerGrid({
                     className={`relative rounded-xl p-2.5 flex flex-col justify-between h-[80px] cursor-pointer transition-all duration-200 group overflow-hidden ${
                       sticker.owned
                         ? isSpecial
-                          ? 'sticker-special-got'
-                          : 'sticker-got'
+                          ? "sticker-special-got"
+                          : "sticker-got"
                         : isSpecial
-                          ? 'sticker-special-missing'
-                          : 'sticker-missing'
+                          ? "sticker-special-missing"
+                          : "sticker-missing"
                     }`}
                     id={`sticker-card-${sticker.id}`}
                   >
@@ -157,4 +174,3 @@ export default function StickerGrid({
     </div>
   );
 }
-

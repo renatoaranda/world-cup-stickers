@@ -16,6 +16,7 @@ import {
   Sparkles,
   Info,
   AlertCircle,
+  Copy,
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -238,6 +239,8 @@ export default function App() {
   // 7. CSV Export
   const handleExportCSV = () => {
     try {
+      console.log("Iniciando processo de exportação CSV...");
+      console.log(stickers.filter((s) => s.owned == false)); // Log exemplo das figurinhas obtidas
       if (stickers.length === 0) {
         addToast("Não há figurinhas para exportar.", "error");
         return;
@@ -261,6 +264,51 @@ export default function App() {
       console.error(err);
       addToast(
         "Infelizmente, ocorreu um erro ao gerar a exportação CSV.",
+        "error",
+      );
+    }
+  };
+
+  const handleExportMissing = () => {
+    try {
+      if (stickers.length === 0) {
+        addToast("Não há figurinhas para copiar.", "error");
+        return;
+      }
+
+      const itens = stickers.filter((s) => s.owned == false);
+
+      type AgrupadoPorTime = Record<string, number[]>;
+
+      const resultado: AgrupadoPorTime = itens.reduce((acumulador, item) => {
+        if (!acumulador[item.teamId]) {
+          acumulador[item.teamId] = [];
+        }
+
+        acumulador[item.teamId].push(item.number);
+
+        return acumulador;
+      }, {} as AgrupadoPorTime);
+
+      const textoFormatado = Object.entries(resultado)
+        .map(([time, numeros]) => `${time}: ${numeros.join(", ")}`)
+        .join("\n");
+
+      if (navigator.clipboard) {
+        navigator.clipboard
+          .writeText(textoFormatado)
+          .then(() => console.log("Copiado com sucesso!"))
+          .catch((err) => console.error("Erro ao copiar:", err));
+      }
+
+      addToast(
+        "Figurinhas faltantes copiadas para a área de transferência! Você pode colar (Ctrl+V) em qualquer lugar. 📋",
+        "success",
+      );
+    } catch (err) {
+      console.error(err);
+      addToast(
+        "Infelizmente, ocorreu um erro ao copiar as faltantes.",
         "error",
       );
     }
@@ -360,9 +408,12 @@ export default function App() {
                 className="flex items-center gap-2.5 bg-rose-500/10 border border-rose-500/20 rounded-xl px-3 py-1.5 select-none shadow-sm"
                 id="header-missing-indicator-small"
               >
-                <div className="flex flex-col text-right">
+                <div
+                  className="flex flex-col text-right"
+                  onClick={handleExportMissing}
+                >
                   <span className="text-[8px] font-bold uppercase tracking-wider text-slate-400 leading-none">
-                    Faltas
+                    Faltam
                   </span>
                   <span className="text-xs font-extrabold text-rose-400 leading-none mt-1">
                     {stats.missing}{" "}
@@ -376,8 +427,18 @@ export default function App() {
                 </div>
               </div>
 
-              {/* Import CSV Modal Button */}
               <button
+                onClick={handleExportMissing}
+                className="px-3.5 py-1.5 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white rounded-xl text-xs font-bold transition-all border border-white/5 flex items-center gap-2 cursor-pointer h-9"
+                id="header-action-import"
+                title="Copiar faltantes"
+              >
+                <Copy className="w-3.5 h-3.5 text-amber-400" />
+                <span className="hidden sm:inline">Copiar faltantes</span>
+              </button>
+
+              {/* Import CSV Modal Button */}
+              {/* <button
                 onClick={() => setIsCsvModalOpen(true)}
                 className="px-3.5 py-1.5 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white rounded-xl text-xs font-bold transition-all border border-white/5 flex items-center gap-2 cursor-pointer h-9"
                 id="header-action-import"
@@ -386,10 +447,10 @@ export default function App() {
                 <Upload className="w-3.5 h-3.5 text-amber-400" />
                 <span className="hidden sm:inline">Upload (CSV)</span>
                 <span className="sm:hidden">Upload</span>
-              </button>
+              </button> */}
 
               {/* Export CSV Button */}
-              <button
+              {/* <button
                 onClick={handleExportCSV}
                 className="px-3.5 py-1.5 bg-amber-500 hover:bg-amber-400 active:bg-amber-600 text-slate-950 rounded-xl text-xs font-black transition-all shadow-md flex items-center gap-2 cursor-pointer h-9"
                 id="header-action-export"
@@ -398,7 +459,7 @@ export default function App() {
                 <Download className="w-3.5 h-3.5 stroke-[2.5]" />
                 <span className="hidden sm:inline">Exportar CSV</span>
                 <span className="sm:hidden">Exportar</span>
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
